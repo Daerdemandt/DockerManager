@@ -3,7 +3,7 @@ This one is to provide newest docker images that pass given tests.
 Images will be available in two repos: 'deployable' and 'untested' with 
 latter used for inner purposes only.
 ###Contents:
-##### recurrent_update.sh:
+##### update.sh:
 Main file so far, recursively updates all the images.
 #####'dockerfiles' folder:
 All the dockerfiles are stored here, hierarchically. Each image is 
