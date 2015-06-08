@@ -31,21 +31,36 @@ BASE_DIR_NAME=$(realpath $0 | sed 's/[^\/]*$/dockerfiles\//')
 # Remove trailing slash in input, if any
 TARGET=$(echo $1 | sed 's/\/$//')
 TARGET_DIR_NAME_FULL="$BASE_DIR_NAME$TARGET";
+TARGET_DIR_NAME_FULL=$(echo "$BASE_DIR_NAME$TARGET" | sed 's/\/$//');
+
+if [[ ! -d "$TARGET_DIR_NAME_FULL" || -L "$TARGET_DIR_NAME_FULL" ]] ; 
+then
+	# there's no such directory
+	echo "Error: could not find $TARGET_DIR_NAME_FULL";
+	exit 1;
+fi
+
 
 if [[ -n "$1" ]]; then # Target is specified, do some building
 	# TODO: check if target exists
 	IMAGE_NAME=$(get_image_name $TARGET);
+	if [[ ! -f "${TARGET_DIR_NAME_FULL}/Dockerfile" ]] ; then
+		echo "Error: could not find ${TARGET_DIR_NAME_FULL}/Dockerfile";
+		exit 1;
+	fi
 	# Build
 	docker build --tag="untested/$IMAGE_NAME" $TARGET_DIR_NAME_FULL
 	# Test
 	# TODO: tests!
 	# If tests are OK, update 'deployable' repo
 	# TODO: updating repo
-	
 fi
 
 # Let's process dependants, in parallel.
 for child in $(get_dependants $TARGET_DIR_NAME_FULL); do
-	$0 $child &
+	# remove slash from beginning if any
+	CHILD_TARGET_NAME=$(echo "$TARGET/$child" | sed 's/^\///' )
+	$0 $CHILD_TARGET_NAME &
 done
 
+#TODO: wait for child processes
