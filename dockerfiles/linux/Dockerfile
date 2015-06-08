@@ -7,3 +7,4 @@ from centos:latest
 MAINTAINER Roman Kuzmichev <daerdemandt@gmail.com>
 LABEL Description="This image is used to base on it other linux images"
  
+ADD ./container-tests /container-tests

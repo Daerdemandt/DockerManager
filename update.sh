@@ -47,13 +47,25 @@ if [[ -n "$1" ]]; then # Target is specified, do some building
 	if [[ ! -f "${TARGET_DIR_NAME_FULL}/Dockerfile" ]] ; then
 		echo "Error: could not find ${TARGET_DIR_NAME_FULL}/Dockerfile";
 		exit 1;
-	fi
+	fi # As of now, we're sure that target exists
+	
 	# Build
-	docker build --tag="untested/$IMAGE_NAME" $TARGET_DIR_NAME_FULL
-	# Test
-	# TODO: tests!
-	# If tests are OK, update 'deployable' repo
-	# TODO: updating repo
+	if docker build --tag="untested/$IMAGE_NAME" $TARGET_DIR_NAME_FULL ; 
+	then
+		# Build was a success, let's run some tests and update if they're  OK
+#		echo building succeded!;
+		if docker run "untested/$IMAGE_NAME" /container-tests/main ; then
+			echo "Tests are OK!";
+			# TODO: updating repo
+#			docker tag "deployable/$IMAGE_NAME" "untested/$IMAGE_NAME"
+			docker tag "untested/$IMAGE_NAME" "deployable/$IMAGE_NAME"
+		else
+			echo "Tests have failed!";
+		fi
+	else
+		# Build failed. Children may need updating anyway, so we continue.
+		echo "Error: Building $IMAGE_NAME failed!"
+	fi
 fi
 
 # Let's process dependants, in parallel.
