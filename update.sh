@@ -5,18 +5,11 @@
 # If not provided, directory '.../DockerManager/dockerfiles' is assumed
 
 # include some functions
-. "$(dirname $0)/misc_functions.sh"
+. "$(dirname $0)/shared_code.sh"
 
-# We assume that base folder is in the same directory with our script.
-# We assume that it's named "dockerfiles"
-BASE_DIR_NAME="$(dirname $0)/dockerfiles/"
+parse_input $@
 
 # If folder was not specified, we'll fall back to default.
-# Remove trailing slash in input, if any
-TARGET=$(echo $1 | sed 's/\/$//')
-TARGET_DIR_NAME_FULL="$BASE_DIR_NAME$TARGET";
-TARGET_DIR_NAME_FULL=$(echo "$BASE_DIR_NAME$TARGET" | sed 's/\/$//');
-
 if ! target_exists $TARGET_DIR_NAME_FULL ; then
         # there's no such directory
         echo "Error: could not find $TARGET_DIR_NAME_FULL";
