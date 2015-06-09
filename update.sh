@@ -1,32 +1,17 @@
 #!/bin/sh
-# /home/docker/update.sh
+# .../DockerManager/update.sh
 # Scrip to recursively update docker images
 # Script needs directory to work with.
-# If not provided, /home/docker/dockerfiles is assumed
+# If not provided, directory 'dockerfiles' in the same directory is assumed
 
-get_dependants() {
-# Return folders with proper names only
-# Proper names are made of nothing except lowercase ascii,
-# digits and underscore
-# Expects folder name, whose dependants we're interested in
+# include some functions
+. "$(dirname $0)/misc_functions.sh"
 
-#return `ls $1 | grep --line-regexp --basic-regexp '[a-z0-9_]*'`
-# grep and ls here are a bit simplier
-ls -p $1 | grep -x -e '[a-z0-9_]*/'
-}
-
-get_image_name() {
-# replace all slashes with hyphens
-# Expects string
-echo $1 | sed 's/\//-/'
-}
-
-# If folder was not specified, we'll fall back to default.
 # We assume that base folder is in the same directory with our script.
 # We assume that it's named "dockerfiles"
 BASE_DIR_NAME="$(dirname $0)/dockerfiles/"
 
-
+# If folder was not specified, we'll fall back to default.
 # Remove trailing slash in input, if any
 TARGET=$(echo $1 | sed 's/\/$//')
 TARGET_DIR_NAME_FULL="$BASE_DIR_NAME$TARGET";
