@@ -30,17 +30,23 @@ fi
 
 # Use template
 cp -r "$DEP_NAME_FULL/target-template" $TARGET_DIR_NAME_FULL
-DFILENAME="$TARGET_DIR_NAME_FULL/Dockerfile"
-echo DFILENAME $DFILENAME
-echo  "# .../DockerManager/dockerfiles/$TARGET/Dockerfile" > "$DFILENAME"
-tail -n +2 "$DFILENAME.template" >> $DFILENAME
 
 # Edit Dockerfile
+DFILENAME="$TARGET_DIR_NAME_FULL/Dockerfile"
+echo  "# .../DockerManager/dockerfiles/$TARGET/Dockerfile" > "$DFILENAME"
 # Some of our actions depend on whether our target depends on something or not
 if  [[ $DEP_NAME_FULL == $BASE_DIR_NAME ]] ; then
 	# Root target, without dependencies.
-	echo root target;
+	echo Adding new root target $TARGET
+	# We'll just copy the template, starting with 2nd line
+	tail -n +2 "$DFILENAME.template" >> $DFILENAME;
 else
 	# Target with dependencies
-	echo We have a target depending on $(dirname $TARGET);
+	echo Adding new target $TARGET depending on $(dirname $TARGET)
+	# We'll represent the dependency using FROM directive
+	STRING_TO_REPLACE='^\w*[Ff][Rr][Oo][Mm].*$'
+	REPLACE_WITH="FROM $(tested_image_name $(dirname $TARGET))"
+	SED_COM="s/$STRING_TO_REPLACE/$REPLACE_WITH/"
+	echo "# This is a dockerfile for target $TARGET" >> $DFILENAME;
+	tail -n +3 "$DFILENAME.template" | sed "$SED_COM" >> $DFILENAME;
 fi

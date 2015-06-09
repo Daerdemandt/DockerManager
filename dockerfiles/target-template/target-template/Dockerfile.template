@@ -1,22 +1,22 @@
-# This is a template for root image - the one that does not depend on any
-# other image we control. In this example it is CentOS, but of course you are
-# free to use any external source that fits your needs.
+# .../DockerManager/dockerfiles/target-template/target-template/Dockerfile.template
+# This is a template for template for dockerfile with dependency.
+# Following line is edited automatically to represent the dependency.
+# Don't change it and don't use FROM directive anywhere else in this file.
+FROM <source image name will be inserted here>
+
 # Full reference on dockerfile syntax can be found at
 # http://docs.docker.com/reference/builder/
-
-FROM centos:latest
 
 # Please uncomment and edit following line to introduce yourself
 # MAINTAINER Jane Doe <janedoe@internet.com>
 
-LABEL Description="This image is a basic linux setup to base on it other linux images"
+LABEL Description="This image provides <your cool stuff here>"
 
-# TODO: add autoupdating at image creation in case external image is not fresh
 # TODO: test these commands
 # TODO: write commands showing better practices (-Suyf is a bad idea for example)
 # Make sure the installation is up-to-date:
-RUN yum update
-# RUN apt-get update && apt-get dist-upgrade
+# RUN yum update
+RUN apt-get update && apt-get dist-upgrade
 # RUN pacman -Suyf
 
 # Get software you need, either using proper packet manager,
