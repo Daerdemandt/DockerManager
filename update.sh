@@ -24,9 +24,8 @@ echo $1 | sed 's/\//-/'
 # If folder was not specified, we'll fall back to default.
 # We assume that base folder is in the same directory with our script.
 # We assume that it's named "dockerfiles"
-# We get its name by replacing sequence of all non-slash symbols at the 
-# end of script's filename with "dockerfiles"
-BASE_DIR_NAME=$(realpath $0 | sed 's/[^\/]*$/dockerfiles\//')
+BASE_DIR_NAME="$(dirname $0)/dockerfiles/"
+
 
 # Remove trailing slash in input, if any
 TARGET=$(echo $1 | sed 's/\/$//')
@@ -56,9 +55,9 @@ if [[ -n "$1" ]]; then # Target is specified, do some building
 #		echo building succeded!;
 		if docker run "untested/$IMAGE_NAME" /container-tests/main ; then
 			echo "Tests are OK!";
-			# TODO: updating repo
-#			docker tag "deployable/$IMAGE_NAME" "untested/$IMAGE_NAME"
-			docker tag "untested/$IMAGE_NAME" "deployable/$IMAGE_NAME"
+			# TODO: this is a critical section
+			# correct interaction with image dispenser is needed
+			docker tag -f "untested/$IMAGE_NAME" "deployable/$IMAGE_NAME"
 		else
 			echo "Tests have failed!";
 		fi
