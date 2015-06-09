@@ -18,12 +18,12 @@ basic_image_name() {
 
 untested_image_name() {
 # Expects string, which will be treated as target's location
-	echo "untested/$(basic_image_name $1)"
+	echo "$(basic_image_name $1):untested"
 }
 
 tested_image_name() {
 # Expects string, which will be treated as target's location
-	echo "deployable/$(basic_image_name $1)"
+	echo "$(basic_image_name $1):tested"
 }
 
 target_exists() {
