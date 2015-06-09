@@ -1,0 +1,32 @@
+# This is a template for root image - the one that does not depend on any
+# other image we control. In this example it is CentOS, but of course you are
+# free to use any external source that fits your needs.
+# Full reference on dockerfile syntax can be found at
+# http://docs.docker.com/reference/builder/
+
+FROM centos:latest
+
+# Please uncomment and edit following line to introduce yourself
+# MAINTAINER Jane Doe <janedoe@internet.com>
+
+LABEL Description="This image is a basic linux setup to base on it other linux images"
+
+# TODO: add autoupdating at image creation in case external image is not fresh
+# TODO: test these commands
+# TODO: write commands showing better practices (-Suyf is a bad idea for example)
+# Make sure the installation is up-to-date:
+RUN yum update
+# RUN apt-get update && apt-get dist-upgrade
+# RUN pacman -Suyf
+
+# Get software you need, either using proper packet manager,
+# or by other means, like directly by git:
+
+# RUN pacman -S git
+# RUN yum install git
+# RUN apt-get install git
+
+# RUN and ADD commands can also be used to change configs.
+
+# Tests are mandatory.
+ADD ./container-tests /container-tests

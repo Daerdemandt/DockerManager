@@ -1,0 +1,11 @@
+#!/bin/sh
+# Test if container provides all we expect to get from 
+# working installation.
+# The script shall return 0 if system is OK and something else otherwise.
+
+# This file is a stub and needs to be worked on
+
+# Check if OS looks kinda like Linux
+uname -a | head --bytes=5 | grep 'Linux' > /dev/null
+exit $?
+
