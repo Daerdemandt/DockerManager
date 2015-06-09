@@ -2,7 +2,7 @@
 # .../DockerManager/update.sh
 # Scrip to recursively update docker images
 # Script needs directory to work with.
-# If not provided, directory 'dockerfiles' in the same directory is assumed
+# If not provided, directory '.../DockerManager/dockerfiles' is assumed
 
 # include some functions
 . "$(dirname $0)/misc_functions.sh"
@@ -17,13 +17,12 @@ TARGET=$(echo $1 | sed 's/\/$//')
 TARGET_DIR_NAME_FULL="$BASE_DIR_NAME$TARGET";
 TARGET_DIR_NAME_FULL=$(echo "$BASE_DIR_NAME$TARGET" | sed 's/\/$//');
 
-if [[ ! -d "$TARGET_DIR_NAME_FULL" || -L "$TARGET_DIR_NAME_FULL" ]] ; 
-then
-	# there's no such directory
-	echo "Error: could not find $TARGET_DIR_NAME_FULL";
-	exit 1;
+if ! target_exists $TARGET_DIR_NAME_FULL ; then
+        # there's no such directory
+        echo "Error: could not find $TARGET_DIR_NAME_FULL";
+        exit 1;
+                        
 fi
-
 
 if [[ -n "$1" ]]; then # Target is specified, do some building
 	# TODO: check if target exists
