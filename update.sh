@@ -19,28 +19,27 @@ fi
 
 if [[ -n "$1" ]]; then # Target is specified, do some building
 	# TODO: check if target exists
-	IMAGE_NAME=$(get_image_name $TARGET);
 	if [[ ! -f "${TARGET_DIR_NAME_FULL}/Dockerfile" ]] ; then
 		echo "Error: could not find ${TARGET_DIR_NAME_FULL}/Dockerfile";
 		exit 1;
 	fi # As of now, we're sure that target exists
 	
 	# Build
-	if docker build --tag="untested/$IMAGE_NAME" $TARGET_DIR_NAME_FULL ; 
+	if docker build --tag="$(untested_image_name $TARGET)" $TARGET_DIR_NAME_FULL ; 
 	then
 		# Build was a success, let's run some tests and update if they're  OK
 #		echo building succeded!;
-		if docker run "untested/$IMAGE_NAME" /container-tests/main ; then
+		if docker run "$(untested_image_name $TARGET)" /container-tests/main ; then
 			echo "Tests are OK!";
 			# TODO: this is a critical section
 			# correct interaction with image dispenser is needed
-			docker tag -f "untested/$IMAGE_NAME" "deployable/$IMAGE_NAME"
+			docker tag -f "$(untested_image_name $TARGET)" "$(tested_image_name $TARGET)"
 		else
-			echo "Tests have failed!";
+			echo "Error: $TARGET have failed some of tests!";
 		fi
 	else
 		# Build failed. Children may need updating anyway, so we continue.
-		echo "Error: Building $IMAGE_NAME failed!"
+		echo "Error: Building $TARGET failed!"
 	fi
 fi
 

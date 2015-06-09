@@ -10,10 +10,20 @@ get_dependants() {
 	ls -p $1 | grep -x -e '[a-z0-9_]*/'
 }
 
-get_image_name() {
+basic_image_name() {
 # Expects string, which will be treated as target's location
 # Replaces all slashes with hyphens to get image's name
 	echo $1 | sed 's/\//-/'
+}
+
+untested_image_name() {
+# Expects string, which will be treated as target's location
+	echo "untested/$(basic_image_name $1)"
+}
+
+tested_image_name() {
+# Expects string, which will be treated as target's location
+	echo "deployable/$(basic_image_name $1)"
 }
 
 target_exists() {
