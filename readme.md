@@ -17,6 +17,8 @@ underscore, directories that do not meet the criteria will be omitted so
 they can be used for tests, for example.
 
 ##TODO:
+ * Addind targets depending on targets depending on something fails.
+ Fix it!
  * make dependent dockerfile (linux-python3), buildable manually
  * make it buildable by script
  * Use proper .dockerignore
@@ -37,3 +39,12 @@ they can be used for tests, for example.
  * make manager that serves as an iterface to outer world and mostly 
  parses input. It should call update.sh and it should be preferred way to 
  do things.
+ * Because hierarchy is stored in fs, autocompletion can be made to work.
+ Thus, target name should be filename. So, make autocompletion work.
+ * The whole program is written under boot2docker. Using it in other ways
+ should be considered. Namingly, grep syntax may be different.
+ * list all targets tree-style
+ * Add removing images that are not in use anymore
+ * Add removing temporary files if something failed in process (new_target.sh)
+ * Fix issue when sed doesn't like slash in replacement even if it is escaped
+ * Change naming convention so that each root image has its own repository
