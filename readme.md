@@ -43,7 +43,6 @@ they can be used for tests, for example.
  Thus, target name should be filename. So, make autocompletion work.
  * The whole program is written under boot2docker. Using it in other ways
  should be considered. Namingly, grep syntax may be different.
- * list all targets tree-style
  * Add removing images that are not in use anymore
  * Add removing temporary files if something failed in process (new_target.sh)
  * Fix issue when sed doesn't like slash in replacement even if it is escaped
