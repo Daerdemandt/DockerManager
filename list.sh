@@ -35,9 +35,13 @@ if [[ -n "$1" ]]; then
 	PREFIX_PRINTABLE=$(echo $PREFIX | sed "s/B/$B/g" | sed "s/V/$V/g" | sed "s/E/$E/g" | sed "s/C/$C/g")
 	echo "$PREFIX_PRINTABLE$TARGET"
 else
-	echo "No target provided, listing all targets:"
-	CHILD_PREFIX=""
-	LAST_CHILD_PREFIX=""
+	if [ "$(get_dependants $TARGET_DIR_NAME_FULL)" ] ; then
+		echo "Listing all targets:"
+		CHILD_PREFIX=""
+		LAST_CHILD_PREFIX=""
+	else
+		echo "Nothing to list"
+	fi
 fi
 
 # For all dependants except last
@@ -53,15 +57,3 @@ if [[ -n "$LAST_CHILD" ]]; then
 	$0 $LAST_CHILD "$LAST_CHILD_PREFIX"
 fi
 
-
-#echo 1 $TARGET_DIR_NAME_FULL
-#DEPS=$(get_dependants $TARGET_DIR_NAME_FULL);
-#echo 2 $DEPS
-#echo 2 $(get_dependants $TARGET_DIR_NAME_FULL);
-#echo "$TARGET last dependant stripped:"
-#get_dependants $TARGET_DIR_NAME_FULL | tail -n 1 | sed 's/^\///' | sed 's/\/$//'
-#echo 3 $(get_dependants $TARGET_DIR_NAME_FULL | tail -n 1 );
-#echo 4 $(get_dependants $TARGET_DIR_NAME_FULL | tail -n 1 | sed 's/^\///');
-#echo 5 $LAST_CHILD
-
-#$0 $LAST_CHILD "$NEW_PREFIX"
