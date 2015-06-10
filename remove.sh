@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # .../DockerManager/remove.sh
 # Used to remove targets
 # Expects one argument - target to remove
@@ -22,6 +22,15 @@ if ! target_exists $TARGET_DIR_NAME_FULL ; then
 fi
 
 rm -rf $TARGET_DIR_NAME_FULL
-docker rmi "$(untested_image_name $TARGET)"
-docker rmi "$(tested_image_name $TARGET)"
+
+UNTESTED_ID=$(docker images | grep "$(untested_image_name $TARGET)" | awk '{print $3}')
+if [[ -n $UNTESTED_ID ]] ; then
+	docker rmi -f "$UNTESTED_ID"
+fi
+
+TESTED_ID=$(docker images | grep "$(tested_image_name $TARGET)" | awk '{print $3}')
+if [[ -n $TESTED_ID ]] ; then
+	docker rmi -f "$TESTED_ID"
+fi
+
 echo "$TARGET removed"
