@@ -6,7 +6,7 @@
 # include some functions
 . "$(dirname $0)/shared_code.sh"
 
-parse_input $@
+parse_target_name $@
 
 if [ -z "$TARGET" ]; then
 	echo No target given;

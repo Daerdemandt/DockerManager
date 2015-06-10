@@ -8,7 +8,7 @@
 # include some functions
 . "$(dirname $0)/shared_code.sh"
 
-parse_input $@
+parse_target_name $@
 
 # For prefix, we need 4 symbols to represent blank space, vertical bar,
 # vertical bar extending right and corner.

@@ -7,7 +7,7 @@
 # include some functions
 . "$(dirname $0)/shared_code.sh"
 
-parse_input $@
+parse_target_name $@
 
 # If folder was not specified, we'll fall back to default.
 if ! target_exists $TARGET_DIR_NAME_FULL ; then

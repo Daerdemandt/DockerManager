@@ -40,7 +40,7 @@ target_exists() {
 # to do it in sh.
 
 
-parse_input(){
+parse_target_name(){
 # Sets variables BASE_DIR_NAME, TARGET, TARGET_DIR_NAME_FULL
 	# We assume that base folder is in the same directory with our script.
 	# We assume that it's named "dockerfiles"
