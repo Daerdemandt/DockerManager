@@ -37,7 +37,6 @@ echo  "# .../DockerManager/dockerfiles/$TARGET/Dockerfile" > "$DFILENAME"
 # Some of our actions depend on whether our target depends on something or not
 if  [[ $DEP_NAME_FULL == $BASE_DIR_NAME ]] ; then
 	# Root target, without dependencies.
-	echo Adding new root target $TARGET
 	# We'll just copy the template, starting with 2nd line
 	tail -n +2 "$DFILENAME.template" >> $DFILENAME;
 else
@@ -51,5 +50,12 @@ else
 	tail -n +3 "$DFILENAME.template" | sed "$SED_COM" >> $DFILENAME;
 	# Add a template for consequent dependent targets
 	cp -r "$DEP_NAME_FULL/target-template" "$TARGET_DIR_NAME_FULL/target-template"
-
 fi
+
+echo "New target $TARGET added. Associated image name will be $(basic_image_name $TARGET)."
+echo "To specify building rules for it, please edit $TARGET_DIR_NAME_FULL/Dockerfile"
+echo "You should also edit contents of following directories:"
+echo "$TARGET_DIR_NAME_FULL/container-tests/"
+echo "$TARGET_DIR_NAME_FULL/target-template/"
+rm "$TARGET_DIR_NAME_FULL/Dockerfile.template"
+
