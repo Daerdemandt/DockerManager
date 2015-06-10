@@ -49,4 +49,7 @@ else
 	SED_COM="s/$STRING_TO_REPLACE/$REPLACE_WITH/"
 	echo "# This is a dockerfile for target $TARGET" >> $DFILENAME;
 	tail -n +3 "$DFILENAME.template" | sed "$SED_COM" >> $DFILENAME;
+	# Add a template for consequent dependent targets
+	cp -r "$DEP_NAME_FULL/target-template" "$TARGET_DIR_NAME_FULL/target-template"
+
 fi
