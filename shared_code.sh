@@ -13,7 +13,7 @@ get_dependants() {
 basic_image_name() {
 # Expects string, which will be treated as target's location
 # Replaces all slashes with hyphens to get image's name
-	echo $1 | sed 's/\//-/'
+	echo $1 | sed 's/\//-/g'
 }
 
 untested_image_name() {
