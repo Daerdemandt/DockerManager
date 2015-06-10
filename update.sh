@@ -34,6 +34,7 @@ if [[ -n "$1" ]]; then # Target is specified, do some building
 			# TODO: this is a critical section
 			# correct interaction with image dispenser is needed
 			docker tag -f "$(untested_image_name $TARGET)" "$(tested_image_name $TARGET)"
+			docker rmi "$(untested_image_name $TARGET)"
 		else
 			echo "Error: $TARGET have failed some of tests!";
 		fi
