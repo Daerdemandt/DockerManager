@@ -30,7 +30,7 @@ if [[ -n "$1" ]]; then # Target is specified, do some building
 		# Build was a success, let's run some tests and update if they're  OK
 #		echo building succeded!;
 		if docker run "$(untested_image_name $TARGET)" /container-tests/main ; then
-			echo "Tests are OK!";
+			echo "$TARGET has passed its tests, making it available as $(tested_image_name $TARGET)";
 			# TODO: this is a critical section
 			# correct interaction with image dispenser is needed
 			docker tag -f "$(untested_image_name $TARGET)" "$(tested_image_name $TARGET)"
