@@ -17,10 +17,6 @@ underscore, directories that do not meet the criteria will be omitted so
 they can be used for tests, for example.
 
 ##TODO:
- * Addind targets depending on targets depending on something fails.
- Fix it!
- * make dependent dockerfile (linux-python3), buildable manually
- * make it buildable by script
  * Use proper .dockerignore
  * Supply each image with /container-tests/updates_available executable
  * take into account results of updates_available
